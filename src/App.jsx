@@ -14,7 +14,7 @@ function App() {
       </div>
 
       {/* Main content */}
-      <div className="relative -mt-32">
+      <div className="relative-mt-32">
         <div className="max-w-5xl mx-auto bg-black-50 rounded-xl">
           <MainContent />
         </div>
