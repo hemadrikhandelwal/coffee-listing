@@ -1,0 +1,38 @@
+name: Deploy Frontend to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # Triggers the workflow on every push to the main branch
+
+permissions:
+  contents: write # Allows the action to write to the gh-pages branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Fetch code from the repository
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. Install Node.js environment
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      # 3. Install dependencies and compile the production build
+      - name: Install & Build
+        run: |
+          npm ci
+          npm run build
+
+      # 4. Deploy the build output folder (usually 'dist' or 'build')
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist # Change to ./build if using older Create React App templates
